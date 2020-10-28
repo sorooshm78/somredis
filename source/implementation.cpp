@@ -11,6 +11,13 @@ somredis::somredis(std::string ip_connect, int port_connect)
 	context = redisConnect(ip.c_str(),port);
 }
 
+somredis::~somredis()
+{
+	exit();
+	freeReplyObject(reply);
+	redisFree(context);
+}
+
 void somredis::insert(std::string key, std::string value)
 {
 	redisCommand(context, "SET %s %s", key.c_str(), value.c_str());
@@ -28,3 +35,21 @@ std::string somredis::get(std::string key)
 	return reply->str ;
 }
 
+int somredis::size()
+{
+	reply = (redisReply *) redisCommand(context,"DBSIZE");
+	return reply->integer ;
+}
+
+bool somredis::empty()
+{
+	if(size() != 0)
+		return false;
+	else
+		return true;
+}
+
+void somredis::clear()
+{
+	redisCommand(context,"FLUSHALL");
+}
