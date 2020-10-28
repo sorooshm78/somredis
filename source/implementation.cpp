@@ -1,0 +1,30 @@
+#include "api.h"
+#include <iostream>
+#include <string>
+#include <hiredis/hiredis.h>
+
+using namespace std;
+
+somredis::somredis(std::string ip_connect, int port_connect)
+:ip(ip_connect), port(port_connect)
+{
+	context = redisConnect(ip.c_str(),port);
+}
+
+void somredis::insert(std::string key, std::string value)
+{
+	redisCommand(context, "SET %s %s", key.c_str(), value.c_str());
+}
+
+void somredis::exit()
+{
+	redisCommand(context,"SHUTDOWN NOSAVE");
+	redisCommand(context,"QUIT");
+}
+
+std::string somredis::get(std::string key)
+{
+	reply = (redisReply *) redisCommand(context,"GET %s",key.c_str());
+	return reply->str ;
+}
+

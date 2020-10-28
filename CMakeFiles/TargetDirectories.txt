@@ -1,0 +1,4 @@
+/home/soroush/Desktop/work/hiredis/CMakeFiles/rebuild_cache.dir
+/home/soroush/Desktop/work/hiredis/CMakeFiles/edit_cache.dir
+/home/soroush/Desktop/work/hiredis/CMakeFiles/implement.dir
+/home/soroush/Desktop/work/hiredis/CMakeFiles/lib_hiredis.dir

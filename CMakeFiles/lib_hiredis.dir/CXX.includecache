@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/soroush/Desktop/work/hiredis/source/Main.cpp
+string
+-
+iostream
+-
+api.h
+/home/soroush/Desktop/work/hiredis/source/api.h
+hiredis/hiredis.h
+-
+
+/home/soroush/Desktop/work/hiredis/source/api.h
+hiredis/hiredis.h
+-
+string
+-
+

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/soroush/Desktop/work/redis_projeck/source
+CMAKE_SOURCE_DIR = /home/soroush/Desktop/work/hiredis/source
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/soroush/Desktop/work/redis_projeck/bin
+CMAKE_BINARY_DIR = /home/soroush/Desktop/work/hiredis
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles /home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles /home/soroush/Desktop/work/hiredis/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named test_redis
+# Target rules for targets named implement
 
 # Build rule for target.
-test_redis: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_redis
-.PHONY : test_redis
+implement: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 implement
+.PHONY : implement
 
 # fast build rule for target.
-test_redis/fast:
-	$(MAKE) -f CMakeFiles/test_redis.dir/build.make CMakeFiles/test_redis.dir/build
-.PHONY : test_redis/fast
+implement/fast:
+	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/build
+.PHONY : implement/fast
+
+#=============================================================================
+# Target rules for targets named lib_hiredis
+
+# Build rule for target.
+lib_hiredis: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lib_hiredis
+.PHONY : lib_hiredis
+
+# fast build rule for target.
+lib_hiredis/fast:
+	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/build
+.PHONY : lib_hiredis/fast
 
 Main.o: Main.cpp.o
 
@@ -129,7 +142,7 @@ Main.o: Main.cpp.o
 
 # target to build an object file
 Main.cpp.o:
-	$(MAKE) -f CMakeFiles/test_redis.dir/build.make CMakeFiles/test_redis.dir/Main.cpp.o
+	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.o
 .PHONY : Main.cpp.o
 
 Main.i: Main.cpp.i
@@ -138,7 +151,7 @@ Main.i: Main.cpp.i
 
 # target to preprocess a source file
 Main.cpp.i:
-	$(MAKE) -f CMakeFiles/test_redis.dir/build.make CMakeFiles/test_redis.dir/Main.cpp.i
+	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.i
 .PHONY : Main.cpp.i
 
 Main.s: Main.cpp.s
@@ -147,8 +160,35 @@ Main.s: Main.cpp.s
 
 # target to generate assembly for a file
 Main.cpp.s:
-	$(MAKE) -f CMakeFiles/test_redis.dir/build.make CMakeFiles/test_redis.dir/Main.cpp.s
+	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.s
 .PHONY : Main.cpp.s
+
+implementation.o: implementation.cpp.o
+
+.PHONY : implementation.o
+
+# target to build an object file
+implementation.cpp.o:
+	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.o
+.PHONY : implementation.cpp.o
+
+implementation.i: implementation.cpp.i
+
+.PHONY : implementation.i
+
+# target to preprocess a source file
+implementation.cpp.i:
+	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.i
+.PHONY : implementation.cpp.i
+
+implementation.s: implementation.cpp.s
+
+.PHONY : implementation.s
+
+# target to generate assembly for a file
+implementation.cpp.s:
+	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.s
+.PHONY : implementation.cpp.s
 
 # Help Target
 help:
@@ -158,10 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... test_redis"
+	@echo "... implement"
+	@echo "... lib_hiredis"
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
+	@echo "... implementation.o"
+	@echo "... implementation.i"
+	@echo "... implementation.s"
 .PHONY : help
 
 

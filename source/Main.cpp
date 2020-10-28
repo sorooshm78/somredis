@@ -1,11 +1,13 @@
-#include <string.h>
-#include <hiredis/hiredis.h>
+#include <string>
 #include <iostream>
+#include "api.h"
+#include <hiredis/hiredis.h>
+
 using namespace std;
 
 int main()
 {
-	redisReply *reply;
+/*	redisReply *reply;
 	redisContext *c = redisConnect("127.0.0.1", 6379);
 	//check connect or not
 	if (c == NULL or c->err) {
@@ -33,6 +35,10 @@ int main()
 	//free reply
 	freeReplyObject(reply);
 	//disconnect
-	redisFree(c);
+	redisFree(c);*/
+
+	somredis s("127.0.0.1", 6379);
+	s.insert("age","MMM");
+	cout << s.get("age") << endl; 
 }
 

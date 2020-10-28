@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(test_redis)
+project(lib_hiredis)
 
-find_library(redlib  libhiredis.a PATHS /usr/lib/x86_64-linux-gnu)
+add_executable(lib_hiredis Main.cpp)
 
-add_executable(test_redis Main.cpp)
+target_link_libraries(lib_hiredis hiredis)
 
-target_link_libraries(test_redis ${redlib})
+add_library(implement  implementation.cpp)
+
+target_link_libraries(implement  hiredis)
+
+target_link_libraries(lib_hiredis implement)

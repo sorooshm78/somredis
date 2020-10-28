@@ -1,3 +1,0 @@
-/home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles/rebuild_cache.dir
-/home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles/edit_cache.dir
-/home/soroush/Desktop/work/redis_projeck/bin/CMakeFiles/test_redis.dir

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimplement.a  CMakeFiles/implement.dir/implementation.cpp.o
+/usr/bin/ranlib libimplement.a
