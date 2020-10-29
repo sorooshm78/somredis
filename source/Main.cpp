@@ -8,10 +8,14 @@ using namespace std;
 int main()
 {
 	cout << "-----------" << endl;
-	cout << "test error connect to redis" << endl;
+	cout << "connect by unix socket" << endl;
+	somredis s("/var/run/redis/redis.sock");
+	cout << "-----------" << endl;
+	//cout << "test error connect to redis" << endl;
 	//somredis err("127.0.0.22",80);
 	cout << "-----------" << endl;
-	somredis s("127.0.0.1", 6379);
+	//cout << "connect by ip/port" << endl;
+	//somredis s("127.0.0.1", 6379);
 	cout << "key and value normal" << endl;
 	s.insert("fname","mehran");
 	cout << "SET fname mehran" << endl;

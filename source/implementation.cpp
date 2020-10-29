@@ -22,6 +22,22 @@ somredis::somredis(std::string ip_connect, int port_connect)
  	}
 }
 
+somredis::somredis(std::string unix_socket)
+{
+	context = redisConnectUnix(unix_socket.c_str());
+    if (context == NULL || context->err)
+    {
+      	if (context)
+      	{
+ 	    	 cout << "Error: " << context->errstr << endl;
+      	}
+        else
+        {
+  	       	 cout << "Can't allocate redis context" << endl;
+        }
+    } 
+}
+
 somredis::~somredis()
 {
 	exit();
