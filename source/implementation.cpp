@@ -32,6 +32,8 @@ void somredis::exit()
 std::string somredis::get(std::string key)
 {
 	reply = (redisReply *) redisCommand(context,"GET %s",key.c_str());
+	if(reply->type == REDIS_REPLY_NIL)	
+		return string();
 	return reply->str ;
 }
 

@@ -27,7 +27,11 @@ int main()
 	cout << "key and value by space" << endl;
 	s.insert("last name","allah gholi");
 	cout << "SET last name = allah gholi" << endl;
-	cout << "get last name: " << s.get("last name") << endl;
+	cout << "get last name: " << s.get("last name") << endl;	
+	cout << "-----------" << endl;
+	cout << "test get functions return empty:\"" << s.get("age") << "\"" << endl;
+	if(s.get("age").empty() == 1)	
+		cout << "return empty string" << endl;
 	cout << "-----------" << endl;
 	cout << "size befor clear: " << s.size() << endl;
 	cout << "empty: " << s.empty() << endl;
