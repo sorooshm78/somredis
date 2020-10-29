@@ -9,6 +9,17 @@ somredis::somredis(std::string ip_connect, int port_connect)
 :ip(ip_connect), port(port_connect)
 {
 	context = redisConnect(ip.c_str(),port);
+	if (context == NULL || context->err) 
+	{
+   		 if (context) 
+	     {
+        	cout << "Error: " << context->errstr << endl;
+ 	     }
+	     else
+         {
+        	cout << "Can't allocate redis context" << endl;
+         }
+ 	}
 }
 
 somredis::~somredis()

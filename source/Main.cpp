@@ -8,6 +8,9 @@ using namespace std;
 int main()
 {
 	cout << "-----------" << endl;
+	cout << "test error connect to redis" << endl;
+	//somredis err("127.0.0.22",80);
+	cout << "-----------" << endl;
 	somredis s("127.0.0.1", 6379);
 	cout << "key and value normal" << endl;
 	s.insert("fname","mehran");
