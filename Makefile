@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named unit_test
+
+# Build rule for target.
+unit_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 unit_test
+.PHONY : unit_test
+
+# fast build rule for target.
+unit_test/fast:
+	$(MAKE) -f CMakeFiles/unit_test.dir/build.make CMakeFiles/unit_test.dir/build
+.PHONY : unit_test/fast
+
+#=============================================================================
 # Target rules for targets named somredis
 
 # Build rule for target.
@@ -122,19 +135,6 @@ somredis: cmake_check_build_system
 somredis/fast:
 	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/build
 .PHONY : somredis/fast
-
-#=============================================================================
-# Target rules for targets named TEST
-
-# Build rule for target.
-TEST: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TEST
-.PHONY : TEST
-
-# fast build rule for target.
-TEST/fast:
-	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/build
-.PHONY : TEST/fast
 
 #=============================================================================
 # Target rules for targets named lib_redis
@@ -203,32 +203,32 @@ implementation.cpp.s:
 	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/implementation.cpp.s
 .PHONY : implementation.cpp.s
 
-test.o: test.cc.o
+unit_test.o: unit_test.cpp.o
 
-.PHONY : test.o
+.PHONY : unit_test.o
 
 # target to build an object file
-test.cc.o:
-	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.o
-.PHONY : test.cc.o
+unit_test.cpp.o:
+	$(MAKE) -f CMakeFiles/unit_test.dir/build.make CMakeFiles/unit_test.dir/unit_test.cpp.o
+.PHONY : unit_test.cpp.o
 
-test.i: test.cc.i
+unit_test.i: unit_test.cpp.i
 
-.PHONY : test.i
+.PHONY : unit_test.i
 
 # target to preprocess a source file
-test.cc.i:
-	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.i
-.PHONY : test.cc.i
+unit_test.cpp.i:
+	$(MAKE) -f CMakeFiles/unit_test.dir/build.make CMakeFiles/unit_test.dir/unit_test.cpp.i
+.PHONY : unit_test.cpp.i
 
-test.s: test.cc.s
+unit_test.s: unit_test.cpp.s
 
-.PHONY : test.s
+.PHONY : unit_test.s
 
 # target to generate assembly for a file
-test.cc.s:
-	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.s
-.PHONY : test.cc.s
+unit_test.cpp.s:
+	$(MAKE) -f CMakeFiles/unit_test.dir/build.make CMakeFiles/unit_test.dir/unit_test.cpp.s
+.PHONY : unit_test.cpp.s
 
 # Help Target
 help:
@@ -237,9 +237,9 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... unit_test"
 	@echo "... edit_cache"
 	@echo "... somredis"
-	@echo "... TEST"
 	@echo "... lib_redis"
 	@echo "... Main.o"
 	@echo "... Main.i"
@@ -247,9 +247,9 @@ help:
 	@echo "... implementation.o"
 	@echo "... implementation.i"
 	@echo "... implementation.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... unit_test.o"
+	@echo "... unit_test.i"
+	@echo "... unit_test.s"
 .PHONY : help
 
 
