@@ -7,7 +7,10 @@ add_executable(lib_redis Main.cpp)
 target_link_libraries(lib_redis hiredis)
 
 add_library(somredis  implementation.cpp)
-
 target_link_libraries(somredis  hiredis)
-
 target_link_libraries(lib_redis somredis)
+
+add_library(TEST test.cc)
+target_link_libraries(TEST  gtest)
+target_link_libraries(TEST gtest_main)
+target_link_libraries(lib_redis TEST)

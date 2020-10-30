@@ -117,5 +117,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/somredis.dir/DependInfo.cmake"
+  "CMakeFiles/TEST.dir/DependInfo.cmake"
   "CMakeFiles/lib_redis.dir/DependInfo.cmake"
   )

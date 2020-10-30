@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/lib_redis.dir/Main.cpp.o  -o lib_redis  -lhiredis libsomredis.a -lhiredis 
+/usr/bin/c++     CMakeFiles/lib_redis.dir/Main.cpp.o  -o lib_redis  -lhiredis libsomredis.a libTEST.a -lhiredis -lgtest -lgtest_main 

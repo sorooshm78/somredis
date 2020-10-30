@@ -124,6 +124,19 @@ somredis/fast:
 .PHONY : somredis/fast
 
 #=============================================================================
+# Target rules for targets named TEST
+
+# Build rule for target.
+TEST: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TEST
+.PHONY : TEST
+
+# fast build rule for target.
+TEST/fast:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/build
+.PHONY : TEST/fast
+
+#=============================================================================
 # Target rules for targets named lib_redis
 
 # Build rule for target.
@@ -190,6 +203,33 @@ implementation.cpp.s:
 	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/implementation.cpp.s
 .PHONY : implementation.cpp.s
 
+test.o: test.cc.o
+
+.PHONY : test.o
+
+# target to build an object file
+test.cc.o:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.o
+.PHONY : test.cc.o
+
+test.i: test.cc.i
+
+.PHONY : test.i
+
+# target to preprocess a source file
+test.cc.i:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.i
+.PHONY : test.cc.i
+
+test.s: test.cc.s
+
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.cc.s:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/test.cc.s
+.PHONY : test.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,6 +239,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... somredis"
+	@echo "... TEST"
 	@echo "... lib_redis"
 	@echo "... Main.o"
 	@echo "... Main.i"
@@ -206,6 +247,9 @@ help:
 	@echo "... implementation.o"
 	@echo "... implementation.i"
 	@echo "... implementation.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

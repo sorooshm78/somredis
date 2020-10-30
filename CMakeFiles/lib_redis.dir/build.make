@@ -80,6 +80,7 @@ lib_redis_EXTERNAL_OBJECTS =
 lib_redis: CMakeFiles/lib_redis.dir/Main.cpp.o
 lib_redis: CMakeFiles/lib_redis.dir/build.make
 lib_redis: libsomredis.a
+lib_redis: libTEST.a
 lib_redis: CMakeFiles/lib_redis.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable lib_redis"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lib_redis.dir/link.txt --verbose=$(VERBOSE)

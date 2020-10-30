@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/soroush/Desktop/work/hiredis
 
 # The main recursive "all" target.
 all: CMakeFiles/somredis.dir/all
+all: CMakeFiles/TEST.dir/all
 all: CMakeFiles/lib_redis.dir/all
 
 .PHONY : all
@@ -65,6 +66,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/somredis.dir/clean
+clean: CMakeFiles/TEST.dir/clean
 clean: CMakeFiles/lib_redis.dir/clean
 
 .PHONY : clean
@@ -76,7 +78,7 @@ clean: CMakeFiles/lib_redis.dir/clean
 CMakeFiles/somredis.dir/all:
 	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/depend
 	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=3,4 "Built target somredis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=5,6 "Built target somredis"
 .PHONY : CMakeFiles/somredis.dir/all
 
 # Build rule for subdir invocation for target.
@@ -97,18 +99,46 @@ CMakeFiles/somredis.dir/clean:
 .PHONY : CMakeFiles/somredis.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/TEST.dir
+
+# All Build rule for target.
+CMakeFiles/TEST.dir/all:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/depend
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=1,2 "Built target TEST"
+.PHONY : CMakeFiles/TEST.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/TEST.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/TEST.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 0
+.PHONY : CMakeFiles/TEST.dir/rule
+
+# Convenience name for target.
+TEST: CMakeFiles/TEST.dir/rule
+
+.PHONY : TEST
+
+# clean rule for target.
+CMakeFiles/TEST.dir/clean:
+	$(MAKE) -f CMakeFiles/TEST.dir/build.make CMakeFiles/TEST.dir/clean
+.PHONY : CMakeFiles/TEST.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/lib_redis.dir
 
 # All Build rule for target.
 CMakeFiles/lib_redis.dir/all: CMakeFiles/somredis.dir/all
+CMakeFiles/lib_redis.dir/all: CMakeFiles/TEST.dir/all
 	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/depend
 	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=1,2 "Built target lib_redis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/soroush/Desktop/work/hiredis/CMakeFiles --progress-num=3,4 "Built target lib_redis"
 .PHONY : CMakeFiles/lib_redis.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/lib_redis.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/lib_redis.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/soroush/Desktop/work/hiredis/CMakeFiles 0
 .PHONY : CMakeFiles/lib_redis.dir/rule
