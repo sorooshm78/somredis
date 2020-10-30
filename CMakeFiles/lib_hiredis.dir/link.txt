@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/lib_hiredis.dir/Main.cpp.o  -o lib_hiredis  -lhiredis libimplement.a -lhiredis 

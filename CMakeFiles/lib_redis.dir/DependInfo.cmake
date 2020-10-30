@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/soroush/Desktop/work/hiredis/source/Main.cpp" "/home/soroush/Desktop/work/hiredis/CMakeFiles/lib_hiredis.dir/Main.cpp.o"
+  "/home/soroush/Desktop/work/hiredis/source/Main.cpp" "/home/soroush/Desktop/work/hiredis/CMakeFiles/lib_redis.dir/Main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,7 +14,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/soroush/Desktop/work/hiredis/CMakeFiles/implement.dir/DependInfo.cmake"
+  "/home/soroush/Desktop/work/hiredis/CMakeFiles/somredis.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

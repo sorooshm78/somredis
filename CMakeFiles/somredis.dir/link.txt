@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsomredis.a  CMakeFiles/somredis.dir/implementation.cpp.o
+/usr/bin/ranlib libsomredis.a

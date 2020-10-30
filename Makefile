@@ -111,30 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named implement
+# Target rules for targets named somredis
 
 # Build rule for target.
-implement: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 implement
-.PHONY : implement
+somredis: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 somredis
+.PHONY : somredis
 
 # fast build rule for target.
-implement/fast:
-	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/build
-.PHONY : implement/fast
+somredis/fast:
+	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/build
+.PHONY : somredis/fast
 
 #=============================================================================
-# Target rules for targets named lib_hiredis
+# Target rules for targets named lib_redis
 
 # Build rule for target.
-lib_hiredis: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lib_hiredis
-.PHONY : lib_hiredis
+lib_redis: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lib_redis
+.PHONY : lib_redis
 
 # fast build rule for target.
-lib_hiredis/fast:
-	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/build
-.PHONY : lib_hiredis/fast
+lib_redis/fast:
+	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/build
+.PHONY : lib_redis/fast
 
 Main.o: Main.cpp.o
 
@@ -142,7 +142,7 @@ Main.o: Main.cpp.o
 
 # target to build an object file
 Main.cpp.o:
-	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.o
+	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/Main.cpp.o
 .PHONY : Main.cpp.o
 
 Main.i: Main.cpp.i
@@ -151,7 +151,7 @@ Main.i: Main.cpp.i
 
 # target to preprocess a source file
 Main.cpp.i:
-	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.i
+	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/Main.cpp.i
 .PHONY : Main.cpp.i
 
 Main.s: Main.cpp.s
@@ -160,7 +160,7 @@ Main.s: Main.cpp.s
 
 # target to generate assembly for a file
 Main.cpp.s:
-	$(MAKE) -f CMakeFiles/lib_hiredis.dir/build.make CMakeFiles/lib_hiredis.dir/Main.cpp.s
+	$(MAKE) -f CMakeFiles/lib_redis.dir/build.make CMakeFiles/lib_redis.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
 implementation.o: implementation.cpp.o
@@ -169,7 +169,7 @@ implementation.o: implementation.cpp.o
 
 # target to build an object file
 implementation.cpp.o:
-	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.o
+	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/implementation.cpp.o
 .PHONY : implementation.cpp.o
 
 implementation.i: implementation.cpp.i
@@ -178,7 +178,7 @@ implementation.i: implementation.cpp.i
 
 # target to preprocess a source file
 implementation.cpp.i:
-	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.i
+	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/implementation.cpp.i
 .PHONY : implementation.cpp.i
 
 implementation.s: implementation.cpp.s
@@ -187,7 +187,7 @@ implementation.s: implementation.cpp.s
 
 # target to generate assembly for a file
 implementation.cpp.s:
-	$(MAKE) -f CMakeFiles/implement.dir/build.make CMakeFiles/implement.dir/implementation.cpp.s
+	$(MAKE) -f CMakeFiles/somredis.dir/build.make CMakeFiles/somredis.dir/implementation.cpp.s
 .PHONY : implementation.cpp.s
 
 # Help Target
@@ -198,8 +198,8 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... implement"
-	@echo "... lib_hiredis"
+	@echo "... somredis"
+	@echo "... lib_redis"
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"

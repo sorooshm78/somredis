@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libimplement.a"
+  "libsomredis.a"
 )

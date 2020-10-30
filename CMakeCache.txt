@@ -145,7 +145,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=lib_hiredis
+CMAKE_PROJECT_NAME:STATIC=lib_redis
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -210,10 +210,10 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-lib_hiredis_BINARY_DIR:STATIC=/home/soroush/Desktop/work/hiredis
+lib_redis_BINARY_DIR:STATIC=/home/soroush/Desktop/work/hiredis
 
 //Value Computed by CMake
-lib_hiredis_SOURCE_DIR:STATIC=/home/soroush/Desktop/work/hiredis/source
+lib_redis_SOURCE_DIR:STATIC=/home/soroush/Desktop/work/hiredis/source
 
 
 ########################
