@@ -12,6 +12,7 @@ public:
 	~somredis();
 	void insert(std::string key, std::string value);
 	std::string get(std::string key);
+	void del(std::string key);
 	void exit();
 	int size();
 	bool empty();

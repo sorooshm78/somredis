@@ -56,6 +56,15 @@ void somredis::exit()
 	redisCommand(context,"QUIT");
 }
 
+void somredis::del(std::string key)
+{
+	reply = (redisReply *) redisCommand(context,"DEL %s",key.c_str());
+	if(reply->integer == 0)
+	{
+		cout << "can not key delete" << endl ;
+	}  
+}
+
 std::string somredis::get(std::string key)
 {
 	reply = (redisReply *) redisCommand(context,"GET %s",key.c_str());
