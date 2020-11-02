@@ -7,8 +7,20 @@
 
 using namespace std;
 
+void f(somredis s)
+{
+	s.clear();
+}
+
 int main()
 {
+	somredis ss("127.0.0.1", 6379);
+	f(ss);
+
+	// FIXME: WHY?!
+	string my_str = "salam";
+	f(my_str);
+
 	cout << "-----------" << endl;
 	cout << "connect by unix socket" << endl;
 	somredis s("/var/run/redis/redis.sock");

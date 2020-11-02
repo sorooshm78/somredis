@@ -5,14 +5,58 @@
 
 #include "SomRedis.h"
 
-somredis s("127.0.0.1",6379); 
+using namespace std;
 
-TEST(test_somredis, insert_and_get)
+class Tests : public ::testing::Test
+{
+public:
+	Tests()
+	: s("127.0.0.1", 6379)
+	{
+	}
+
+	void SetUp() override
+	{
+		s.clear();
+	}
+
+	somredis s; 
+};
+
+TEST_F(Tests, DISABLED_doing_nothing_should_not_casue_anything)
+{
+	somredis ss("127.0.0.1", 6379);
+}
+
+TEST_F(Tests, DISABLED_empty_string_should_not_cause_trouble)
+{
+	string str;
+	s.insert(str, str);
+}
+
+TEST_F(Tests, DISABLED_bad_characters_should_not_cause_trouble)
+{
+	string str = "a";
+	str += '\0';
+	str += 'a';
+	str += '\0';
+	str += 'a';
+	str += '\0';
+	str += 'a';
+
+	cout << "str size: " << str.size() << endl;
+	s.insert("key", str);
+	EXPECT_EQ(str.size(), s.get("key").size());
+}
+
+TEST_F(Tests, inserted_simple_key_should_be_existed)
+{
+	s.insert("name", "ali");
+    EXPECT_EQ("ali", s.get("name"));
+}
+
+TEST_F(Tests, insert_and_get)
 {	
-	//key and value no space
-	s.insert("name","ali");
-    EXPECT_EQ("ali",s.get("name"));
-
 	//key space and value no space
 	s.insert("first name","sina");
 	EXPECT_EQ("sina",s.get("first name"));	
@@ -34,9 +78,9 @@ TEST(test_somredis, insert_and_get)
 	EXPECT_EQ("",s.get("ag"));
 }
 
-TEST(test_somredis , del)
+TEST_F(Tests, del)
 {
-	s.del("name");
+	//s.del("name");
 	EXPECT_EQ("",s.get("name"));
 	
 	s.del("P");
@@ -45,19 +89,13 @@ TEST(test_somredis , del)
     EXPECT_EQ("",s.get("first name"));
 }
 
-TEST(test_somredis , size)
+TEST_F(Tests, size)
 {
-    EXPECT_EQ(3,s.size());
-    s.del("name");
-    EXPECT_EQ(3,s.size());
-	s.del("age");
-	EXPECT_EQ(2,s.size());
+    EXPECT_EQ(0, s.size());
 }
 
-TEST(test_somredis , empty_and_clear)
+TEST_F(Tests, empty_and_clear)
 {
-    EXPECT_FALSE(s.empty());
 	s.clear();
     EXPECT_TRUE(s.empty());
 }
-

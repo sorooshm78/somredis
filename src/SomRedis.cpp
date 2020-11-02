@@ -8,30 +8,35 @@
 using namespace std;
 
 somredis::somredis(std::string ip_connect, int port_connect)
-:ip(ip_connect), port(port_connect)
+: ip(ip_connect)
+, port(port_connect)
 {
-	context = redisConnect(ip.c_str(),port);
-	if (context == NULL || context->err) 
+	context = redisConnect(ip.c_str(), port);
+	if (context == nullptr || context->err) 
 	{
    		 if (context) 
 	     {
+			// FIXME throw exception
         	cout << "Error: " << context->errstr << endl;
  	     }
 	     else
          {
+			// FIXME
         	cout << "Can't allocate redis context" << endl;
          }
  	}
 }
 
+// FIXME change string to const string&
 somredis::somredis(std::string unix_socket)
 {
 	context = redisConnectUnix(unix_socket.c_str());
-    if (context == NULL || context->err)
+    if (context == nullptr || context->err)
     {
       	if (context)
       	{
- 	    	 cout << "Error: " << context->errstr << endl;
+			// FIXME
+ 	    	cout << "Error: " << context->errstr << endl;
       	}
         else
         {
@@ -42,7 +47,7 @@ somredis::somredis(std::string unix_socket)
 
 somredis::~somredis()
 {
-	exit();
+	redisCommand(context,"QUIT");
 	freeReplyObject(reply);
 	redisFree(context);
 }
@@ -52,16 +57,10 @@ void somredis::insert(std::string key, std::string value)
 	redisCommand(context, "SET %s %s", key.c_str(), value.c_str());
 }
 
-void somredis::exit()
-{
-	redisCommand(context,"SHUTDOWN NOSAVE");
-	redisCommand(context,"QUIT");
-}
-
 void somredis::del(std::string key)
 {
 	reply = (redisReply *) redisCommand(context,"DEL %s",key.c_str());
-	if(reply->integer == 0)
+	if (reply->integer == 0)
 	{
 		cout << "can not key delete" << endl ;
 	}  
@@ -77,7 +76,7 @@ std::string somredis::get(std::string key)
 
 int somredis::size()
 {
-	reply = (redisReply *) redisCommand(context,"DBSIZE");
+	reply = (redisReply *) redisCommand(context, "DBSIZE");
 	return reply->integer ;
 }
 
@@ -91,5 +90,5 @@ bool somredis::empty()
 
 void somredis::clear()
 {
-	redisCommand(context,"FLUSHALL");
+	redisCommand(context, "FLUSHALL");
 }
