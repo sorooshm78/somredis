@@ -1,5 +1,0 @@
-/home/soroush/Desktop/work/hiredis/CMakeFiles/rebuild_cache.dir
-/home/soroush/Desktop/work/hiredis/CMakeFiles/unit_test.dir
-/home/soroush/Desktop/work/hiredis/CMakeFiles/edit_cache.dir
-/home/soroush/Desktop/work/hiredis/CMakeFiles/somredis.dir
-/home/soroush/Desktop/work/hiredis/CMakeFiles/lib_redis.dir
