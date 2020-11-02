@@ -1,8 +1,9 @@
-#include <iostream>
 #include <string>
+#include <iostream>
+
 #include <gtest/gtest.h>
 
-#include "api.h"
+#include "SomRedis.h"
 
 somredis s("127.0.0.1",6379); 
 

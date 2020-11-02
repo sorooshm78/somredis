@@ -1,7 +1,9 @@
 #include <string>
 #include <iostream>
-#include "api.h"
+
 #include <hiredis/hiredis.h>
+
+#include "SomRedis.h"
 
 using namespace std;
 

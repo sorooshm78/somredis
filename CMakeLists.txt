@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(somredis)
+
+add_library(somredis src/SomRedis.cpp)
+target_link_libraries(somredis hiredis)
+
+include_directories(src)
+
+add_executable(simple-main Main.cpp)
+target_link_libraries(simple-main hiredis)
+target_link_libraries(simple-main somredis)
+
+add_executable(test test/Test.cpp)
+target_link_libraries(test gtest)
+target_link_libraries(test gtest_main)
+target_link_libraries(test somredis)
+target_link_libraries(test hiredis)
+target_link_libraries(test pthread)
