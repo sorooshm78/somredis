@@ -12,7 +12,6 @@ somredis::somredis(std::string ip_connect, int port_connect)
 , port(port_connect)
 {
 	try{
-	//	context = redisConnect(ip.c_str(), port);
 		context = redisConnect(ip.c_str(), port);
 		if (context == nullptr || context->err) 
 		{
