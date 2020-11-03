@@ -54,21 +54,21 @@ somredis::~somredis()
 
 void somredis::insert(std::string key, std::string value)
 {
-	redisCommand(context, "SET %s %s", key.c_str(), value.c_str());
+	redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
 }
 
-void somredis::del(std::string key)
+int somredis::del(std::string key)
 {
 	reply = (redisReply *) redisCommand(context,"DEL %s",key.c_str());
 	if (reply->integer == 0)
-	{
-		cout << "can not key delete" << endl ;
-	}  
+		return -1 ;
+	else
+		return 0 ;  
 }
 
 std::string somredis::get(std::string key)
 {
-	reply = (redisReply *) redisCommand(context,"GET %s",key.c_str());
+	reply = (redisReply *) redisCommand(context,"GET %b",key.c_str(), (size_t)key.size());
 	if(reply->type == REDIS_REPLY_NIL)	
 		return string();
 	return reply->str ;
