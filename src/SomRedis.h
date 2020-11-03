@@ -7,7 +7,7 @@
 class somredis
 {
 public:
-	somredis(std::string ip_connect, int port_connect);
+	explicit somredis(std::string ip_connect, int port_connect);
 	somredis(std::string unix_socket);
 	~somredis();
 	void insert(std::string key, std::string value);
@@ -20,8 +20,8 @@ public:
 private:
     std::string ip;
 	int port;
-	redisContext *context;
-	redisReply *reply;
+	redisContext *context = nullptr;
+	redisReply *reply = nullptr;
 };
 
 #endif

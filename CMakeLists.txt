@@ -17,3 +17,7 @@ target_link_libraries(test gtest_main)
 target_link_libraries(test somredis)
 target_link_libraries(test hiredis)
 target_link_libraries(test pthread)
+
+add_executable(performance performance/performance.cpp)
+target_link_libraries(performance somredis)
+target_link_libraries(performance hiredis)

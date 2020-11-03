@@ -11,55 +11,70 @@ somredis::somredis(std::string ip_connect, int port_connect)
 : ip(ip_connect)
 , port(port_connect)
 {
-	context = redisConnect(ip.c_str(), port);
-	if (context == nullptr || context->err) 
-	{
-   		 if (context) 
-	     {
-			// FIXME throw exception
-        	cout << "Error: " << context->errstr << endl;
- 	     }
-	     else
-         {
-			// FIXME
-        	cout << "Can't allocate redis context" << endl;
-         }
- 	}
+	try{
+	//	context = redisConnect(ip.c_str(), port);
+		context = redisConnect(ip.c_str(), port);
+		if (context == nullptr || context->err) 
+		{
+   		 	if (context) 
+	     	{
+				// FIXME throw exception
+        		cout << "Error: " << context->errstr << endl;
+				throw context->errstr ;
+ 	     	}
+	     	else
+        	{
+				// FIXME
+        		cout << "Can't allocate redis context" << endl;
+				throw "Can't allocate redis context" ;
+
+        	}
+ 		}
+	}
+	catch(string s){}
 }
 
 // FIXME change string to const string&
 somredis::somredis(std::string unix_socket)
 {
-	context = redisConnectUnix(unix_socket.c_str());
-    if (context == nullptr || context->err)
-    {
-      	if (context)
-      	{
-			// FIXME
- 	    	cout << "Error: " << context->errstr << endl;
-      	}
-        else
-        {
-  	       	 cout << "Can't allocate redis context" << endl;
-        }
-    } 
+	try{
+		context = redisConnectUnix(unix_socket.c_str());
+    	if (context == nullptr || context->err)
+    	{
+      		if (context)
+      		{
+				// FIXME
+ 	    		cout << "Error: " << context->errstr << endl;
+				throw context->errstr ;
+      		}
+        	else
+        	{
+  	    		cout << "Can't allocate redis context" << endl;
+				throw "allocate_redis_context" ;
+        	}
+    	}
+	}
+	catch(string s){} 
 }
 
 somredis::~somredis()
-{
+{	
+	clear();
 	redisCommand(context,"QUIT");
 	freeReplyObject(reply);
 	redisFree(context);
 }
 
 void somredis::insert(std::string key, std::string value)
-{
+{	
+	if(key.size() == 0 or value.size() == 0)
+		return;
 	redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
 }
 
 int somredis::del(std::string key)
 {
-	reply = (redisReply *) redisCommand(context,"DEL %s",key.c_str());
+	reply = (redisReply *) redisCommand(context,"DEL %b",key.c_str(), (size_t)key.size());
 	if (reply->integer == 0)
 		return -1 ;
 	else

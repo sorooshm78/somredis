@@ -23,12 +23,19 @@ public:
 	somredis s; 
 };
 
-TEST_F(Tests, DISABLED_doing_nothing_should_not_casue_anything)
+TEST_F(Tests, doing_nothing_should_not_casue_anything)
 {
 	somredis ss("127.0.0.1", 6379);
 }
 
-TEST_F(Tests, DISABLED_empty_string_should_not_cause_trouble)
+TEST_F(Tests, more_connect_and_set_get)
+{
+	somredis a("127.0.0.1", 6379);
+	s.insert("name", "mr.mehran");
+	EXPECT_EQ("mr.mehran", a.get("name"));
+}
+
+TEST_F(Tests, empty_string_should_not_cause_trouble)
 {
 	string str;
 	s.insert(str, str);
