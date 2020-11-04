@@ -7,15 +7,19 @@
 class somredis
 {
 public:
-	explicit somredis(std::string ip_connect, int port_connect);
-	somredis(std::string unix_socket);
+	explicit somredis(const std::string &ip_connect,const int &port_connect);
+	somredis(const std::string &unix_socket);
 	~somredis();
-	void insert(std::string key, std::string value);
-	std::string get(std::string key);
-	int del(std::string key);
+	somredis(somredis &obj);
+	void insert(const std::string &key, const std::string &value);
+	std::string get(const std::string &key);
+	int del(const std::string &key);
 	int size();
 	bool empty();
 	void clear();
+	std::string get_ip();
+	int get_port();
+	std::string performance();
 
 private:
     std::string ip;

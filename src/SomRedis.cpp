@@ -7,7 +7,7 @@
 
 using namespace std;
 
-somredis::somredis(std::string ip_connect, int port_connect)
+somredis::somredis(const std::string &ip_connect, const int &port_connect)
 : ip(ip_connect)
 , port(port_connect)
 {
@@ -34,7 +34,7 @@ somredis::somredis(std::string ip_connect, int port_connect)
 }
 
 // FIXME change string to const string&
-somredis::somredis(std::string unix_socket)
+somredis::somredis(const std::string &unix_socket)
 {
 	try{
 		context = redisConnectUnix(unix_socket.c_str());
@@ -64,14 +64,21 @@ somredis::~somredis()
 	redisFree(context);
 }
 
-void somredis::insert(std::string key, std::string value)
+somredis::somredis(somredis &obj)
+{
+	ip = obj.get_ip() ;
+	port = obj.get_port() ;
+	context = redisConnect(ip.c_str(), port);
+}
+
+void somredis::insert(const std::string &key, const std::string &value)
 {	
 	if(key.size() == 0 or value.size() == 0)
 		return;
 	redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
 }
 
-int somredis::del(std::string key)
+int somredis::del(const std::string &key)
 {
 	reply = (redisReply *) redisCommand(context,"DEL %b",key.c_str(), (size_t)key.size());
 	if (reply->integer == 0)
@@ -80,7 +87,7 @@ int somredis::del(std::string key)
 		return 0 ;  
 }
 
-std::string somredis::get(std::string key)
+std::string somredis::get(const std::string & key)
 {
 	reply = (redisReply *) redisCommand(context,"GET %b",key.c_str(), (size_t)key.size());
 	if(reply->type == REDIS_REPLY_NIL)	
@@ -105,4 +112,22 @@ bool somredis::empty()
 void somredis::clear()
 {
 	redisCommand(context, "FLUSHALL");
+}
+
+std::string somredis::get_ip()
+{
+	return ip;
+}
+
+int somredis::get_port()
+{
+	return port;
+}
+
+std::string somredis::performance()
+{
+	reply = (redisReply *) redisCommand(context,"INFO STATS");
+	if(reply->type == REDIS_REPLY_NIL)	
+		return string();
+	return reply->str ; 
 }
