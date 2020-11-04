@@ -20,11 +20,13 @@ int main()
 	{
 		s.insert(to_string(i), to_string(i+1));
 		if(i == 49999)
+			// Show info stats when i = 49999
 			cout << s.performance() << endl;
 	}
 	auto end_set = high_resolution_clock::now();
-	auto durtion_set = duration_cast<chrono::seconds>(end_set - start_set).count();
-	cout << "performance set : " << count / durtion_set << " per/sec" << endl;
+	auto durtion_set = duration_cast<chrono::microseconds>(end_set - start_set).count();
+	double time_s = (double)durtion_set / (double) 1000000;
+	cout << "performance set : " << (int)(count / time_s)  << " per/sec" << endl;
 
 	// Computing get performance
 	auto start_get = high_resolution_clock::now();
@@ -32,9 +34,11 @@ int main()
 	{
 		s.get(to_string(i));
 //		if(i == 49999)
+			// Show info stats when i = 49999
 //			cout << s.performance() << endl;
 	}
 	auto end_get = high_resolution_clock::now();
-	auto durtion_get = duration_cast<chrono::seconds>(end_get - start_get).count();
-	cout << "performance get : " << count / durtion_get << " per/sec" << endl;
+	auto durtion_get = duration_cast<chrono::microseconds>(end_get - start_get).count();
+	double time_g = (double)durtion_get / (double) 1000000;
+	cout << "performance get : " << (int)(count / time_g)  << " per/sec" << endl;
 }
