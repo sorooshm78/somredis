@@ -18,15 +18,12 @@ somredis::somredis(const std::string &ip_connect, const int &port_connect)
    		 	if (context) 
 	     	{
 				// FIXME throw exception
-        		cout << "Error: " << context->errstr << endl;
 				throw context->errstr ;
  	     	}
 	     	else
         	{
 				// FIXME
-        		cout << "Can't allocate redis context" << endl;
 				throw "Can't allocate redis context" ;
-
         	}
  		}
 	}
@@ -43,12 +40,10 @@ somredis::somredis(const std::string &unix_socket)
       		if (context)
       		{
 				// FIXME
- 	    		cout << "Error: " << context->errstr << endl;
 				throw context->errstr ;
       		}
         	else
         	{
-  	    		cout << "Can't allocate redis context" << endl;
 				throw "allocate_redis_context" ;
         	}
     	}
