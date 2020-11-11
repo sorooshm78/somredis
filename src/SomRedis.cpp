@@ -73,13 +73,13 @@ void somredis::insert(const std::string &key, const std::string &value)
 	redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
 }
 
-int somredis::del(const std::string &key)
+bool somredis::del(const std::string &key)
 {
 	reply = (redisReply *) redisCommand(context,"DEL %b",key.c_str(), (size_t)key.size());
 	if (reply->integer == 0)
-		return -1 ;
+		return false;
 	else
-		return 0 ;  
+		return true;  
 }
 
 std::string somredis::get(const std::string & key)
@@ -124,5 +124,5 @@ std::string somredis::performance()
 	reply = (redisReply *) redisCommand(context,"INFO STATS");
 	if(reply->type == REDIS_REPLY_NIL)	
 		return string();
-	return reply->str ; 
+	return reply->str; 
 }

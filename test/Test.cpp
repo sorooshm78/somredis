@@ -28,11 +28,22 @@ TEST_F(Tests, doing_nothing_should_not_casue_anything)
 	somredis ss("127.0.0.1", 6379);
 }
 
+TEST_F(Tests, import)
+{
+	char key = 200;
+	char val = 255;
+	s.insert(string(1,key), string(1, val));
+	EXPECT_EQ(string(1,val), s.get(string(1,key)));
+}
+
 TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 {
-	somredis a("127.0.0.1", 6379);
-	s.insert("name", "mr.mehran");
-	EXPECT_EQ("mr.mehran", a.get("name"));
+	//{
+	// FIXME
+		somredis a("127.0.0.1", 6379);
+		a.insert("name", "mr.mehran");
+	//}
+	EXPECT_EQ("mr.mehran", s.get("name"));
 }
 
 TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
@@ -48,7 +59,7 @@ TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
 TEST_F(Tests, empty_string_should_not_cause_trouble)
 {
 	string str;
-	s.insert(str, str);
+	EXPECT_NO_THROW(s.insert(str, str));
 }
 
 TEST_F(Tests, empty_string_key)
@@ -122,13 +133,20 @@ TEST_F(Tests, get_key_when_Does_not_exist)
 
 TEST_F(Tests, delete_key_when_does_not_exist)
 {
-	EXPECT_EQ(-1, s.del("P"));
+	EXPECT_EQ(false, s.del("P"));
 }
 
 TEST_F(Tests, delete_key_exist)
 {
 	s.insert("first name", "sina");
-    EXPECT_EQ(0, s.del("first name"));
+    EXPECT_EQ(true, s.del("first name"));
+}
+
+TEST_F(Tests, delete_key_exist_and_test_not_exist)
+{
+	s.insert("first name", "sina");
+    EXPECT_EQ(true, s.del("first name"));
+	EXPECT_EQ("", s.get("first name"));
 }
 
 TEST_F(Tests, empty_size)

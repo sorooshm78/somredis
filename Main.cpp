@@ -1,24 +1,31 @@
 #include <string>
+#include <vector>
 #include <iostream>
-
+#include <stdlib.h> 
+#include <time.h> 
 #include <hiredis/hiredis.h>
 
 #include "SomRedis.h"
 
 using namespace std;
 
-void f(somredis s)
+string random(int byte)
 {
-	cout << "function f" << endl;
-	s.clear();
+	int count_byte = byte;
+	char k[count_byte];
+	srand(time(0));
+	for(int i = 0 ; i < count_byte ; i++)
+	{
+		k[i] = rand() % 256;
+	}
+	return string(k);
 }
 
 int main()
 {
-	somredis ss("127.0.0.1", 6379);
-	f(ss);
-//	FIXME: WHY?!
-//	string my_str = "salam";
-//	f(my_str);
+	somredis s("127.0.0.1", 6379);
+	string key = random(30);
+	cout << key.size() << endl;
+	s.insert(key, "sina");
 }
 
