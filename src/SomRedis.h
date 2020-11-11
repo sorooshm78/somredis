@@ -48,7 +48,6 @@ private:
     std::string ip;
 	int port;
 	redisContext *context = nullptr;
-	redisReply *reply = nullptr;
 };
 
 #endif
