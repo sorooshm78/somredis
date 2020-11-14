@@ -15,13 +15,12 @@ using namespace std::chrono;
 
 string str_rand(int byte)
 {
-	int count_byte = byte;
-	char str[count_byte];
-	for(int i = 0 ; i < count_byte ; i++)
+	vector <char> str;
+	for(int i = 0 ; i < byte ; i++)
 	{
-		str[i] = rand() % 256;
+		str.push_back(rand() % 256);
 	}
-	return string(str);
+	return string(str.begin(), str.end());
 }
 
 void p(somredis &s, string type, int count, int key_byte, int val_byte)

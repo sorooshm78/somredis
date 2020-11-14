@@ -20,6 +20,11 @@ public:
 		s.clear();
 	}
 
+	void TearDown() override
+	{
+		//s.clear();
+	}
+
 	somredis s; 
 };
 
@@ -38,11 +43,10 @@ TEST_F(Tests, import)
 
 TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 {
-	//{
-	// FIXME
+	{
 		somredis a("127.0.0.1", 6379);
 		a.insert("name", "mr.mehran");
-	//}
+	}
 	EXPECT_EQ("mr.mehran", s.get("name"));
 }
 
@@ -165,4 +169,19 @@ TEST_F(Tests, empty_and_clear)
 {
 	s.clear();
     EXPECT_TRUE(s.empty());
+}
+
+TEST_F(Tests, insert_big_key_and_val)
+{
+	int count = 10000000;
+	vector <char> k;
+	vector <char> v;
+	for(int i = 0; i<count; i++)
+		k.push_back('a');
+	for(int i = 0; i<count; i++)
+		v.push_back('b');
+	string key(k.begin(), k.end());
+	string val(v.begin(), v.end());
+	s.insert(key, val);
+	EXPECT_EQ(val ,s.get(key));
 }

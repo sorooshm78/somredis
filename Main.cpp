@@ -1,11 +1,12 @@
 #include <hiredis/hiredis.h>
 #include <iostream>
+#include <vector>
 
 #include "SomRedis.h"
 
 using namespace std; 
- 
-int main(int argc, char *argv[])  
-{ 
-   return 0; 
+
+int main()  
+{
+	return 0; 
 } 
