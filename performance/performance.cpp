@@ -135,13 +135,12 @@ int main(int argc, char *argv[])
 
 	if(connect == "ip")
 	{
-		somredis s("127.0.0.1", 6379);
-		
-		thread t1(performance, ref(s), type, count/count_thread, key_byte, val_byte);
-		t1.join();
-		thread t2(performance, ref(s), type, count/count_thread, key_byte, val_byte);
+		somredis a("127.0.0.1", 6379);
+		somredis b("127.0.0.1", 6379);
+		thread t1(performance, ref(a), type, count/2, key_byte, val_byte);
+		thread t2(performance, ref(b), type, count/2, key_byte, val_byte);
 		t2.join();
-			
+		t1.join();		
 
 
 
@@ -150,7 +149,8 @@ int main(int argc, char *argv[])
 		//	threads.push_back(thread(p, ref(s), type, count/count_thread, key_byte, val_byte));
 		//for(int i = 0 ; i < count_thread ;i++)
 		//	threads[i].join();
-		s.clear();
+		a.clear();
+		b.clear();
 	}
 
 	if(connect == "unix")
