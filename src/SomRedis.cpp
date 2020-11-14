@@ -53,7 +53,7 @@ somredis::somredis(const std::string &unix_socket)
 
 somredis::~somredis()
 {	
-	clear();
+	//clear();
 	redisCommand(context,"QUIT");
 	redisFree(context);
 }

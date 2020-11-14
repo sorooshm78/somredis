@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+#include <thread>
 
 #include <hiredis/hiredis.h>
 
@@ -21,6 +22,19 @@ string str_rand(int byte)
 		str[i] = rand() % 256;
 	}
 	return string(str);
+}
+
+void p(somredis &s, string type, int count, int key_byte, int val_byte)
+{
+	vector <string> keys;
+	if(type == "set" or type == "sg")
+	{
+		for (int i = 0 ; i < count ; i++)
+		{	
+			keys.push_back(str_rand(key_byte));
+			s.insert(keys[i], str_rand(val_byte));
+		}
+	}
 }
 
 void performance(somredis &s, string type, int count, int key_byte, int val_byte)
@@ -70,12 +84,14 @@ int main(int argc, char *argv[])
 {	
 	// Configure default
 	int opt;
-	int count = 100;
+	int count = 10;
 	int key_byte = 30;
 	int val_byte = 100;
+	int count_thread = 5;
 	string type = "set";
 	string connect = "ip";
-
+	vector <thread> threads;
+	
 	// Srand for random function
 	srand(time(0));
 	
@@ -121,7 +137,11 @@ int main(int argc, char *argv[])
 	if(connect == "ip")
 	{
 		somredis s("127.0.0.1", 6379);
-		performance(s, type, count, key_byte, val_byte);
+		//performance(s, type, count, key_byte, val_byte);
+		for(int i = 0 ; i < count_thread ;i++)
+			threads.push_back(thread(p, ref(s), type, count/count_thread, key_byte, val_byte));
+		for(int i = 0 ; i < count_thread ;i++)
+			threads[i].join();
 	}
 
 	if(connect == "unix")
