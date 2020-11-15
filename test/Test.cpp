@@ -22,7 +22,7 @@ public:
 
 	void TearDown() override
 	{
-		//s.clear();
+		s.clear();
 	}
 
 	somredis s; 

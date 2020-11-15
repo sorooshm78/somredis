@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	int count = 100;
 	int key_byte = 30;
 	int val_byte = 100;
-	int count_thread = 10;
+	int count_thread = 7;
 	string type = "set";
 	string connect = "ip";
 	
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 	
 	for(int i = 0 ; i < count ; i++)
 		vals.push_back(str_rand(val_byte));
-	
+				
 	auto bk = keys.begin();
 	auto bv = vals.begin();
 	auto ek = keys.end();
@@ -141,7 +141,9 @@ int main(int argc, char *argv[])
 
 			// CREAT THREAD
  			vector <thread> threads;				
-	
+			auto bk = keys.begin();
+			auto bv = vals.begin();
+
 			for(int i = 0 ; i < count_thread ; i++)
 			{
 				if(i == count_thread - 1)
@@ -185,6 +187,7 @@ int main(int argc, char *argv[])
 			// CREAT THREAD
 			vector <thread> threads;
 			bk = keys.begin();
+
 			for(int i = 0 ; i < count_thread ; i++)
 			{
 				if(i == count_thread - 1)
@@ -218,8 +221,7 @@ int main(int argc, char *argv[])
 	if(connect == "unix")
 	{
 		if(type == "set" or type == "sg")
-		{
-	
+		{	
 			// CREATE CONNECTION FOR REDIS
 			vector <somredis*> c;
 			for(int i = 0; i < count_thread ; i++)
@@ -233,6 +235,7 @@ int main(int argc, char *argv[])
  			vector <thread> threads;
 			bk = keys.begin();
 			bv = vals.begin();
+
 			for(int i = 0 ; i < count_thread ; i++)
 			{
 				if(i == count_thread - 1)
@@ -304,8 +307,7 @@ int main(int argc, char *argv[])
 			cout << "performance get : " << (int)(count / time_s)  << " per/sec" << endl;
 		}
 	}
-
 	//	CLEAR DATA FROM REDIS
-	//somredis s("127.0.0.1", 6379);
-	//s.clear();
+	somredis s("127.0.0.1", 6379);
+	s.clear();
 }
