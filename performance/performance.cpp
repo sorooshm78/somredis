@@ -23,49 +23,19 @@ string str_rand(int byte)
 	return string(str.begin(), str.end());
 }
 
-void p(somredis &s, string type, int count, int key_byte, int val_byte)
+void set_performance(somredis* &s, vector <string> &key, int count, int key_byte, int val_byte)
 {
-	vector <string> keys;
-	if(type == "set" or type == "sg")
-	{
-		for (int i = 0 ; i < count ; i++)
-		{	
-			keys.push_back(str_rand(key_byte));
-			s.insert(keys[i], str_rand(val_byte));
-		}
+	for (int i = 0 ; i < count ; i++)
+	{	
+		key.push_back(str_rand(key_byte));
+		s->insert(key[i], str_rand(val_byte));
 	}
 }
 
-void performance(somredis &s, string type, int count, int key_byte, int val_byte)
+void get_performance(somredis* &s, vector <string> &key, int count)
 {
-	vector <string> keys;
-	if(type == "set" or type == "sg")
-	{
-		// Computing set performance
-		auto start_set = high_resolution_clock::now();
-		for (int i = 0 ; i < count ; i++)
-		{	
-			keys.push_back(str_rand(key_byte));
-			s.insert(keys[i], str_rand(val_byte));
-		}
-		auto end_set = high_resolution_clock::now();
-		auto durtion_set = duration_cast<chrono::microseconds>(end_set - start_set).count();
-		double time_s = (double)durtion_set / (double) 1000000;
-		cout << "performance set : " << (int)(count / time_s)  << " per/sec" << endl;
-	}
-
-	if(type == "get" or type == "sg")
-	{
-		// Computing get performance
-		auto start_get = high_resolution_clock::now();
-		for (int i = 0 ; i < count ; i++)
-			s.get(keys[i]);
-		
-		auto end_get = high_resolution_clock::now();
-		auto durtion_get = duration_cast<chrono::microseconds>(end_get - start_get).count();
-		double time_g = (double)durtion_get / (double) 1000000;
-		cout << "performance get : " << (int)(count / time_g)  << " per/sec" << endl;
-	}
+	for (int i = 0 ; i < count ; i++)
+		s->get(key[i]);	
 }
 
 void man_page()
@@ -74,51 +44,62 @@ void man_page()
 	cout << "-h  help " << endl;
 	cout << "-k  size byte key default: 30 " << endl; 
 	cout << "-v  size byte value default: 100 " << endl;
-	cout << "-t  type of performance set or get or sg(set and get) default: set " << endl;
+	cout << "-f  type of performance set or get or sg(set and get) default: set " << endl;
 	cout << "-c  ip or unix default: ip " << endl;
 	cout << "-n  count set or get to redis default: 100 " << endl;
+	cout << "-t  count thread default: 5 " << endl;
 }
 
 int main(int argc, char *argv[])
 {	
 	// Configure default
 	int opt;
-	int count = 10;
+	int count = 100;
 	int key_byte = 30;
 	int val_byte = 100;
-	int count_thread = 5;
+	int count_thread = 10;
 	string type = "set";
 	string connect = "ip";
-	vector <thread> threads;
 	
 	// Srand for random function
 	srand(time(0));
 	
 	// Getopt for send argument
-    while((opt = getopt(argc, argv, ":c:t:n:k:v:h")) != -1)
+    while((opt = getopt(argc, argv, ":t:c:f:n:k:v:h")) != -1)
 	{
 		switch(opt)
 		{			
+			// HELP
 			case 'h':
 			man_page();
 			return 0;
 	
+			// SIZE KEY
 			case 'k':
 			key_byte = stoi(optarg);
 			break;
 			
+			// SIZE VALUE
 			case 'v':
 			val_byte = stoi(optarg);	
 			break;
 
+			// COUNT DATA 
 			case 'n':
 			count = stoi(optarg); 
 			break;
 
-			case 't':
+			// TYPE OF WORK BY REDIS
+			case 'f':
 			type = optarg;
 			break;
-			
+
+			// COUNT THREAD
+			case 't':
+			count_thread = stoi(optarg);
+			break;		
+
+			// TYPE CONNECTION
 			case 'c':
 			connect = optarg;
 			break;			
@@ -133,30 +114,149 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	// STRING OF KEY
+	vector <vector<string>> keys(count_thread);
+	
 	if(connect == "ip")
 	{
-		somredis a("127.0.0.1", 6379);
-		somredis b("127.0.0.1", 6379);
-		thread t1(performance, ref(a), type, count/2, key_byte, val_byte);
-		thread t2(performance, ref(b), type, count/2, key_byte, val_byte);
-		t2.join();
-		t1.join();		
+		if(type == "set" or type == "sg")
+		{	
+			// CREATE CONNECTION FOR REDIS
+			vector <somredis*> c;
+			for(int i = 0; i < count_thread ; i++)
+				c.push_back(new somredis("127.0.0.1", 6379));
 
+			// START TIME
+			auto start_set = high_resolution_clock::now();
 
+			// CREAT THREAD
+ 			vector <thread> threads;
+			for(int i = 0 ; i < count_thread ; i++)
+				threads.push_back(thread(set_performance, ref(c[i]), ref(keys[i]), count/count_thread, key_byte, val_byte));
 
-		//performance(s, type, count, key_byte, val_byte);
-		//for(int i = 0 ; i < count_thread ;i++)
-		//	threads.push_back(thread(p, ref(s), type, count/count_thread, key_byte, val_byte));
-		//for(int i = 0 ; i < count_thread ;i++)
-		//	threads[i].join();
-		a.clear();
-		b.clear();
+			//	JOIN THREAD
+			for(int i = 0 ; i < count_thread ; i++)
+				threads[i].join();
+
+			// END TIME
+			auto end_set = high_resolution_clock::now();
+
+			//	FREE OF CONNECTION
+			for(int i = 0; i < count_thread ; i++)
+				delete c[i];
+		
+			// COMPUTING TIME
+			auto durtion_set = duration_cast<chrono::microseconds>(end_set - start_set).count();
+			double time_s = (double)durtion_set / (double) 1000000;
+			cout << "performance set : " << (int)(count / time_s)  << " per/sec" << endl;
+		}		
+
+		if(type == "get" or type == "sg")
+		{
+	
+			// CREATE CONNECTION FOR REDIS
+			vector <somredis*> c;
+			for(int i = 0; i < count_thread ; i++)
+				c.push_back(new somredis("127.0.0.1", 6379));
+
+			// START TIME
+			auto start_get = high_resolution_clock::now();
+
+			// CREAT THREAD
+			vector <thread> threads;
+			for(int i = 0 ; i < count_thread ; i++)
+				threads.push_back(thread(get_performance, ref(c[i]), ref(keys[i]), count/count_thread));
+
+			//	JOIN THREAD
+			for(int i = 0 ; i < count_thread ; i++)
+				threads[i].join();
+
+			// END TIME
+			auto end_get = high_resolution_clock::now();
+
+			//	FREE OF CONNECTION
+			for(int i = 0; i < count_thread ; i++)
+				delete c[i];
+		
+
+			// COMPUTING TIME
+			auto durtion_get = duration_cast<chrono::microseconds>(end_get - start_get).count();
+			double time_s = (double)durtion_get / (double) 1000000;
+			cout << "performance get : " << (int)(count / time_s)  << " per/sec" << endl;
+		}
 	}
 
 	if(connect == "unix")
 	{
-		somredis s("/var/run/redis/redis.sock");
-		performance(s, type, count, key_byte, val_byte);
-		s.clear();
+		if(type == "set" or type == "sg")
+		{
+	
+			// CREATE CONNECTION FOR REDIS
+			vector <somredis*> c;
+			for(int i = 0; i < count_thread ; i++)
+				c.push_back(new somredis("/var/run/redis/redis.sock"));
+
+			// START TIME
+			auto start_set = high_resolution_clock::now();
+
+			// CREAT THREAD
+ 			vector <thread> threads;
+			for(int i = 0 ; i < count_thread ; i++)
+				threads.push_back(thread(set_performance, ref(c[i]), ref(keys[i]), count/count_thread, key_byte, val_byte));
+
+			//	JOIN THREAD
+			for(int i = 0 ; i < count_thread ; i++)
+				threads[i].join();
+
+			// END TIME
+			auto end_set = high_resolution_clock::now();
+
+
+			//	FREE OF CONNECTION
+			for(int i = 0; i < count_thread ; i++)
+				delete c[i];
+		
+			// COMPUTING TIME
+			auto durtion_set = duration_cast<chrono::microseconds>(end_set - start_set).count();
+			double time_s = (double)durtion_set / (double) 1000000;
+			cout << "performance set : " << (int)(count / time_s)  << " per/sec" << endl;
+		}		
+
+		if(type == "get" or type == "sg")
+		{
+	
+			// CREATE CONNECTION FOR REDIS
+			vector <somredis*> c;
+			for(int i = 0; i < count_thread ; i++)
+				c.push_back(new somredis("/var/run/redis/redis.sock"));
+
+			// START TIME
+			auto start_get = high_resolution_clock::now();
+
+			// CREAT THREAD
+			vector <thread> threads;
+			for(int i = 0 ; i < count_thread ; i++)
+				threads.push_back(thread(get_performance, ref(c[i]), ref(keys[i]), count/count_thread));
+
+			//	JOIN THREAD
+			for(int i = 0 ; i < count_thread ; i++)
+				threads[i].join();
+
+			// END TIME
+			auto end_get = high_resolution_clock::now();
+
+			//	FREE OF CONNECTION
+			for(int i = 0; i < count_thread ; i++)
+				delete c[i];
+		
+			// COMPUTING TIME
+			auto durtion_get = duration_cast<chrono::microseconds>(end_get - start_get).count();
+			double time_s = (double)durtion_get / (double) 1000000;
+			cout << "performance get : " << (int)(count / time_s)  << " per/sec" << endl;
+		}
 	}
+
+	//	CLEAR DATA FROM REDIS
+	somredis s("127.0.0.1", 6379);
+	s.clear();
 }
