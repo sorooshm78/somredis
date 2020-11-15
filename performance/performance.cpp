@@ -23,18 +23,15 @@ string str_rand(int byte)
 	return string(str.begin(), str.end());
 }
 
-void set_performance(somredis* &s, vector <string> &key, int count, int key_byte, int val_byte)
+void set_performance(somredis* &s, vector <string> key, vector <string> val)
 {
-	for (int i = 0 ; i < count ; i++)
-	{	
-		key.push_back(str_rand(key_byte));
-		s->insert(key[i], str_rand(val_byte));
-	}
+	for (int i = 0 ; i < key.size() ; i++)
+		s->insert(key[i], val[i]);
 }
 
-void get_performance(somredis* &s, vector <string> &key, int count)
+void get_performance(somredis* &s, vector <string> key)
 {
-	for (int i = 0 ; i < count ; i++)
+	for (int i = 0 ; i < key.size() ; i++)
 		s->get(key[i]);	
 }
 
@@ -115,8 +112,21 @@ int main(int argc, char *argv[])
 	}
 
 	// STRING OF KEY
-	vector <vector<string>> keys(count_thread);
+	vector <string> keys;
+	vector <string> vals;
+
+	for(int i = 0 ; i < count ; i++)
+		keys.push_back(str_rand(key_byte));
 	
+	for(int i = 0 ; i < count ; i++)
+		vals.push_back(str_rand(val_byte));
+	
+	auto bk = keys.begin();
+	auto bv = vals.begin();
+	auto ek = keys.end();
+	auto ev = vals.end();
+	int add = count / count_thread;
+
 	if(connect == "ip")
 	{
 		if(type == "set" or type == "sg")
@@ -130,9 +140,19 @@ int main(int argc, char *argv[])
 			auto start_set = high_resolution_clock::now();
 
 			// CREAT THREAD
- 			vector <thread> threads;
+ 			vector <thread> threads;				
+	
 			for(int i = 0 ; i < count_thread ; i++)
-				threads.push_back(thread(set_performance, ref(c[i]), ref(keys[i]), count/count_thread, key_byte, val_byte));
+			{
+				if(i == count_thread - 1)
+					threads.push_back(thread(set_performance, ref(c[i]), vector<string>(bk, ek), vector<string>(bv, ev)));
+				else
+				{
+					threads.push_back(thread(set_performance, ref(c[i]), vector<string>(bk, bk + add), vector<string>(bv, bv+add)));
+					bk += add;
+					bv += add;
+				}
+			}
 
 			//	JOIN THREAD
 			for(int i = 0 ; i < count_thread ; i++)
@@ -164,8 +184,17 @@ int main(int argc, char *argv[])
 
 			// CREAT THREAD
 			vector <thread> threads;
+			bk = keys.begin();
 			for(int i = 0 ; i < count_thread ; i++)
-				threads.push_back(thread(get_performance, ref(c[i]), ref(keys[i]), count/count_thread));
+			{
+				if(i == count_thread - 1)
+					threads.push_back(thread(get_performance, ref(c[i]), vector<string>(bk, ek)));
+				else
+				{
+					threads.push_back(thread(get_performance, ref(c[i]), vector<string>(bk, bk + add)));
+					bk += add;
+				}	
+			}
 
 			//	JOIN THREAD
 			for(int i = 0 ; i < count_thread ; i++)
@@ -196,13 +225,25 @@ int main(int argc, char *argv[])
 			for(int i = 0; i < count_thread ; i++)
 				c.push_back(new somredis("/var/run/redis/redis.sock"));
 
+		
 			// START TIME
 			auto start_set = high_resolution_clock::now();
 
 			// CREAT THREAD
  			vector <thread> threads;
+			bk = keys.begin();
+			bv = vals.begin();
 			for(int i = 0 ; i < count_thread ; i++)
-				threads.push_back(thread(set_performance, ref(c[i]), ref(keys[i]), count/count_thread, key_byte, val_byte));
+			{
+				if(i == count_thread - 1)
+					threads.push_back(thread(set_performance, ref(c[i]), vector<string>(bk, ek), vector<string>(bv, ev)));
+				else
+				{
+					threads.push_back(thread(set_performance, ref(c[i]), vector<string>(bk, bk + add), vector<string>(bv, bv+add)));
+					bk += add;
+					bv += add;
+				}
+			}
 
 			//	JOIN THREAD
 			for(int i = 0 ; i < count_thread ; i++)
@@ -210,7 +251,6 @@ int main(int argc, char *argv[])
 
 			// END TIME
 			auto end_set = high_resolution_clock::now();
-
 
 			//	FREE OF CONNECTION
 			for(int i = 0; i < count_thread ; i++)
@@ -235,8 +275,17 @@ int main(int argc, char *argv[])
 
 			// CREAT THREAD
 			vector <thread> threads;
+			bk = keys.begin();
 			for(int i = 0 ; i < count_thread ; i++)
-				threads.push_back(thread(get_performance, ref(c[i]), ref(keys[i]), count/count_thread));
+			{
+				if(i == count_thread - 1)
+					threads.push_back(thread(get_performance, ref(c[i]), vector<string>(bk, ek)));
+				else
+				{
+					threads.push_back(thread(get_performance, ref(c[i]), vector<string>(bk, bk + add)));
+					bk += add;
+				}	
+			}
 
 			//	JOIN THREAD
 			for(int i = 0 ; i < count_thread ; i++)
@@ -257,6 +306,6 @@ int main(int argc, char *argv[])
 	}
 
 	//	CLEAR DATA FROM REDIS
-	somredis s("127.0.0.1", 6379);
-	s.clear();
+	//somredis s("127.0.0.1", 6379);
+	//s.clear();
 }
