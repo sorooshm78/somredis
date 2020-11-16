@@ -19,7 +19,7 @@ void man_page()
 	cout << "-h  help " << endl;
 	cout << "-k  size byte key default: 30 " << endl; 
 	cout << "-v  size byte value default: 100 " << endl;
-	cout << "-f  type of performance set or get or sg(set and get) default: set " << endl;
+	cout << "-f  type of performance set or sg(set and get) default: set " << endl;
 	cout << "-c  ip or unix default: ip " << endl;
 	cout << "-n  count set or get to redis default: 100 " << endl;
 	cout << "-t  count thread default: 5 " << endl;
