@@ -52,7 +52,6 @@ TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 
 TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
 {
-	// Defulte define somredis s
 	somredis p("127.0.0.1", 6379);
 	s.insert("name", "soroush");
 	p.insert("age", "21");
@@ -171,17 +170,19 @@ TEST_F(Tests, empty_and_clear)
     EXPECT_TRUE(s.empty());
 }
 
+string initialize_data(char word,  int count_byte)
+{
+	vector <char> k;
+	for(int i = 0; i<count_byte; i++)
+		k.push_back(word);
+	return string(k.begin(), k.end());
+}
+
 TEST_F(Tests, insert_big_key_and_val)
 {
-	int count = 10000000;
-	vector <char> k;
-	vector <char> v;
-	for(int i = 0; i<count; i++)
-		k.push_back('a');
-	for(int i = 0; i<count; i++)
-		v.push_back('b');
-	string key(k.begin(), k.end());
-	string val(v.begin(), v.end());
+	int count_byte = 10000000;
+	string key = initialize_data('a', count_byte);
+	string val = initialize_data('b', count_byte);
 	s.insert(key, val);
 	EXPECT_EQ(val ,s.get(key));
 }
