@@ -64,9 +64,9 @@ void somredis::insert(const std::string &key, const std::string &value)
 bool somredis::del(const std::string &key)
 {
 	redisReply *reply = (redisReply *) redisCommand(context,"DEL %b",key.c_str(), (size_t)key.size());
-	int integer = reply->integer;
+	int deleted = reply->integer;
 	freeReplyObject(reply);
-	if (integer == 0)
+	if (deleted == 0)
 		return false;
 	else
 		return true;  
@@ -80,16 +80,17 @@ std::string somredis::get(const std::string & key)
 		freeReplyObject(reply);
 		return string();
 	}
-	string str = reply->str;
+	string val = reply->str;
 	freeReplyObject(reply);
-	return str;
+	return val;
 }
 
 int somredis::size()
 {
 	redisReply *reply = (redisReply *) redisCommand(context, "DBSIZE");
-	return reply->integer ;
+	int size = reply->integer;
 	freeReplyObject(reply);
+	return size ;
 }
 
 bool somredis::empty()
@@ -118,8 +119,12 @@ int somredis::get_port()
 std::string somredis::performance()
 {
 	redisReply *reply = (redisReply *) redisCommand(context,"INFO STATS");
-	if(reply->type == REDIS_REPLY_NIL)	
+	if(reply->type == REDIS_REPLY_NIL)
+	{	
+		freeReplyObject(reply);
 		return string();
-	return reply->str; 
+	}
+	string str = reply->str;
 	freeReplyObject(reply);
+	return str; 
 }
