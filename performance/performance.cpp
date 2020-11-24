@@ -13,11 +13,11 @@
 using namespace std;
 using namespace std::chrono;
 
-void man_page()
+void print_help()
 {
-	cout << "this is man page:" <<endl;
-	cout << "-h  help " << endl;
-	cout << "-k  size byte key default: 30 " << endl; 
+	cout << "Redis performance measure tool:" <<endl;
+	cout << "-h  Show this help " << endl;
+	cout << "-k  Size of in bytes (default: 30) " << endl; 
 	cout << "-v  size byte value default: 100 " << endl;
 	cout << "-f  type of performance set or sg(set and get) default: set " << endl;
 	cout << "-c  ip or unix default: ip " << endl;
@@ -28,54 +28,49 @@ void man_page()
 // Create random string
 string str_rand(int byte)
 {
-	vector <char> str;
+	string str;
 	for(int i = 0 ; i < byte ; i++)
-	{
-		str.push_back(rand() % 256);
-	}
-	return string(str.begin(), str.end());
+		str += (char)(rand() % 256);
+
+	return str;
 }
 
-void set_performance(somredis* &s, vector <string> key, vector <string> val)
+void set_performance(somredis* &s, const vector<string>& key, const vector<string>& val)
 {
 	for (int i = 0 ; i < key.size() ; i++)
 		s->insert(key[i], val[i]);
 }
 
-void get_performance(somredis* &s, vector <string> key)
+void get_performance(somredis* &s, const vector<string>& key)
 {
 	for (int i = 0 ; i < key.size() ; i++)
 		s->get(key[i]);	
 }
 
-void initialize_data(vector <string> &k, int count, int key_byte)
+void initialize_data(vector<string>& k, int count, int key_byte)
 {
-	for(int i = 0 ; i < count ; i++)
+	for (int i = 0 ; i < count ; i++)
 		k.push_back(str_rand(key_byte));
 }
 
-void initialize_connection(vector<somredis*> &c, string type, int count)
+void initialize_connection(vector<somredis*>& c, const string& type, int count)
 {
-	if(type == "ip")
+	for (int i = 0; i < count ; i++)
 	{
-		for(int i = 0; i < count ; i++)
+		if (type == "ip")
 			c.push_back(new somredis("127.0.0.1", 6379));
-	}
-	
-	if(type == "unix")
-	{
-		for(int i = 0; i < count ; i++)
+		else if (type == "unix")
 			c.push_back(new somredis("/var/run/redis/redis.sock"));
 	}
 }
 
-void deletion_connection(vector <somredis*> &v, int count)
+void deletion_connection(vector<somredis*>& v, int count)
 {		
-	for(int i = 0; i < count ; i++)
+	for (int i = 0; i < count ; i++)
 		delete v[i];
 }
 
-void join_threads(vector <thread> &t)
+void join_threads(vector<thread>& t)
 {
 	for(int i = 0 ; i < t.size() ; i++)
 		t[i].join();
@@ -115,7 +110,7 @@ int main(int argc, char *argv[])
 		{			
 			// HELP
 			case 'h':
-			man_page();
+			print_help();
 			return 0;
 	
 			// SIZE KEY
@@ -168,11 +163,7 @@ int main(int argc, char *argv[])
 	initialize_data(vals, count, val_byte);
 
 	// Check connection
-	if(connect == "ip")
-		initialize_connection(connections, "ip", count_thread);
-
-	if(connect == "unix")
-		initialize_connection(connections, "unix", count_thread);
+	initialize_connection(connections, connect, count_thread);
 	
 	// Count insert or get each thread
 	int add = count / count_thread;

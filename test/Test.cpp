@@ -33,21 +33,13 @@ TEST_F(Tests, doing_nothing_should_not_casue_anything)
 	somredis ss("127.0.0.1", 6379);
 }
 
-TEST_F(Tests, import)
-{
-	char key = 200;
-	char val = 255;
-	s.insert(string(1,key), string(1, val));
-	EXPECT_EQ(string(1,val), s.get(string(1,key)));
-}
-
 TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 {
 	{
 		somredis a("127.0.0.1", 6379);
 		a.insert("name", "mr.mehran");
 	}
-	EXPECT_EQ("mr.mehran", s.get("name"));
+	EXPECT_EQ(string("mr.mehran"), s.get("name"));
 }
 
 TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
@@ -55,8 +47,8 @@ TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
 	somredis p("127.0.0.1", 6379);
 	s.insert("name", "soroush");
 	p.insert("age", "21");
-	EXPECT_EQ("soroush", p.get("name"));
-	EXPECT_EQ("21", s.get("age"));
+	EXPECT_EQ(string("soroush"), p.get("name"));
+	EXPECT_EQ(string("21"), s.get("age"));
 }
 
 TEST_F(Tests, empty_string_should_not_cause_trouble)
@@ -95,43 +87,43 @@ TEST_F(Tests, bad_characters_insert_and_get)
 TEST_F(Tests, inserted_simple_key_should_be_existed)
 {
 	s.insert("name", "ali");
-    EXPECT_EQ("ali", s.get("name"));
+    EXPECT_EQ(string("ali"), s.get("name"));
 }
 
 TEST_F(Tests, inserted_key_by_space_should_be_existed)
 {	
 	s.insert("first name","sina");
-	EXPECT_EQ("sina",s.get("first name"));	
+	EXPECT_EQ(string("sina"),s.get("first name"));	
 }
 
 TEST_F(Tests, inserted_value_by_space_should_be_existed)
 {
 	s.insert("name","allah gholi");
-	EXPECT_EQ("allah gholi",s.get("name"));
+	EXPECT_EQ(string("allah gholi"), s.get("name"));
 }
 
 TEST_F(Tests, inserted_key_and_value_by_space_should_be_existed)
 {
 	s.insert("last name","allah gholi");
-	EXPECT_EQ("allah gholi",s.get("last name"));
+	EXPECT_EQ(string("allah gholi"), s.get("last name"));
 }
 
 TEST_F(Tests, inserted_key_by_Capital_letters_should_be_existed)
 {
-	s.insert("PERSON","ASGAR");
-	EXPECT_EQ("ASGAR",s.get("PERSON"));
-	EXPECT_EQ("",s.get("person"));
+	s.insert("PERSON", "ASGAR");
+	EXPECT_EQ(string("ASGAR"), s.get("PERSON"));
+	EXPECT_EQ(string(), s.get("person"));
 }
 
 TEST_F(Tests, not_find_key)
 {
 	s.insert("age","21");
-	EXPECT_EQ("",s.get("ag"));
+	EXPECT_EQ(string(), s.get("ag"));
 }
 
 TEST_F(Tests, get_key_when_Does_not_exist)
 {
-	EXPECT_EQ("",s.get("name"));
+	EXPECT_EQ(string(), s.get("name"));
 }	
 
 TEST_F(Tests, delete_key_when_does_not_exist)
@@ -148,8 +140,8 @@ TEST_F(Tests, delete_key_exist)
 TEST_F(Tests, delete_key_exist_and_test_not_exist)
 {
 	s.insert("first name", "sina");
-    EXPECT_EQ(true, s.del("first name"));
-	EXPECT_EQ("", s.get("first name"));
+	EXPECT_TRUE(s.del("first name"));
+	EXPECT_EQ(string(), s.get("first name"));
 }
 
 TEST_F(Tests, empty_size)
@@ -170,19 +162,13 @@ TEST_F(Tests, empty_and_clear)
     EXPECT_TRUE(s.empty());
 }
 
-string initialize_data(char word,  int count_byte)
-{
-	vector <char> k;
-	for(int i = 0; i<count_byte; i++)
-		k.push_back(word);
-	return string(k.begin(), k.end());
-}
-
+/*
 TEST_F(Tests, insert_big_key_and_val)
 {
-	int count_byte = 10000000;
-	string key = initialize_data('a', count_byte);
-	string val = initialize_data('b', count_byte);
+	int count_byte = 10 * 1000 * 1000;
+	string key('a', count_byte);
+	string val('b', count_byte);
 	s.insert(key, val);
 	EXPECT_EQ(val ,s.get(key));
 }
+*/

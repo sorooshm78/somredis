@@ -1,1 +1,1 @@
-valgrind --leak-check=full --log-file="logfile.out" ../bin/test
+valgrind --leak-check=full --track-origins=yes --log-file="logfile.out" ../bin/test

@@ -16,21 +16,15 @@ somredis::somredis(const std::string &ip_connect, const int &port_connect)
 		if (context == nullptr || context->err) 
 		{
    		 	if (context) 
-	     	{
-				// FIXME throw exception
 				throw context->errstr ;
- 	     	}
+
 	     	else
-        	{
-				// FIXME
 				throw "Can't allocate redis context" ;
-        	}
  		}
 	}
 	catch(string s){}
 }
 
-// FIXME change string to const string&
 somredis::somredis(const std::string &unix_socket)
 {
 	try{
@@ -38,14 +32,9 @@ somredis::somredis(const std::string &unix_socket)
     	if (context == nullptr || context->err)
     	{
       		if (context)
-      		{
-				// FIXME
 				throw context->errstr ;
-      		}
         	else
-        	{
 				throw "allocate_redis_context" ;
-        	}
     	}
 	}
 	catch(string s){} 
@@ -75,20 +64,25 @@ void somredis::insert(const std::string &key, const std::string &value)
 bool somredis::del(const std::string &key)
 {
 	redisReply *reply = (redisReply *) redisCommand(context,"DEL %b",key.c_str(), (size_t)key.size());
-	if (reply->integer == 0)
+	int integer = reply->integer;
+	freeReplyObject(reply);
+	if (integer == 0)
 		return false;
 	else
 		return true;  
-	freeReplyObject(reply);
 }
 
 std::string somredis::get(const std::string & key)
 {
 	redisReply *reply = (redisReply *) redisCommand(context,"GET %b",key.c_str(), (size_t)key.size());
-	if(reply->type == REDIS_REPLY_NIL)	
+	if(reply->type == REDIS_REPLY_NIL)
+	{
+		freeReplyObject(reply);
 		return string();
-	return reply->str ;
+	}
+	string str = reply->str;
 	freeReplyObject(reply);
+	return str;
 }
 
 int somredis::size()
