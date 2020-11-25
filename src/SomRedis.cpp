@@ -42,8 +42,8 @@ somredis::somredis(const std::string &unix_socket)
 
 somredis::~somredis()
 {	
-	//clear();
-	redisCommand(context,"QUIT");
+	redisReply *reply =(redisReply *)redisCommand(context,"QUIT");
+	freeReplyObject(reply);
 	redisFree(context);
 }
 
@@ -58,7 +58,8 @@ void somredis::insert(const std::string &key, const std::string &value)
 {	
 	if(key.size() == 0 or value.size() == 0)
 		return;
-	redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
+	redisReply *reply = (redisReply *)redisCommand(context, "SET %b %b", key.c_str(), (size_t)key.size(), value.c_str(), (size_t)value.size());
+	freeReplyObject(reply);
 }
 
 bool somredis::del(const std::string &key)
@@ -103,7 +104,8 @@ bool somredis::empty()
 
 void somredis::clear()
 {
-	redisCommand(context, "FLUSHALL");
+	redisReply *reply = (redisReply *)redisCommand(context, "FLUSHALL");
+	freeReplyObject(reply);
 }
 
 std::string somredis::get_ip()

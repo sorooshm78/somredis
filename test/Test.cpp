@@ -39,7 +39,7 @@ TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 		somredis a("127.0.0.1", 6379);
 		a.insert("name", "mr.mehran");
 	}
-	EXPECT_EQ(string("mr.mehran"), s.get("name"));
+	EXPECT_EQ("mr.mehran", s.get("name"));
 }
 
 TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
@@ -47,8 +47,8 @@ TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
 	somredis p("127.0.0.1", 6379);
 	s.insert("name", "soroush");
 	p.insert("age", "21");
-	EXPECT_EQ(string("soroush"), p.get("name"));
-	EXPECT_EQ(string("21"), s.get("age"));
+	EXPECT_EQ("soroush", p.get("name"));
+	EXPECT_EQ("21", s.get("age"));
 }
 
 TEST_F(Tests, empty_string_should_not_cause_trouble)
@@ -87,25 +87,25 @@ TEST_F(Tests, bad_characters_insert_and_get)
 TEST_F(Tests, inserted_simple_key_should_be_existed)
 {
 	s.insert("name", "ali");
-    EXPECT_EQ(string("ali"), s.get("name"));
+    EXPECT_EQ("ali", s.get("name"));
 }
 
 TEST_F(Tests, inserted_key_by_space_should_be_existed)
 {	
 	s.insert("first name","sina");
-	EXPECT_EQ(string("sina"),s.get("first name"));	
+	EXPECT_EQ("sina",s.get("first name"));	
 }
 
 TEST_F(Tests, inserted_value_by_space_should_be_existed)
 {
 	s.insert("name","allah gholi");
-	EXPECT_EQ(string("allah gholi"), s.get("name"));
+	EXPECT_EQ("allah gholi", s.get("name"));
 }
 
 TEST_F(Tests, inserted_key_and_value_by_space_should_be_existed)
 {
 	s.insert("last name","allah gholi");
-	EXPECT_EQ(string("allah gholi"), s.get("last name"));
+	EXPECT_EQ("allah gholi", s.get("last name"));
 }
 
 TEST_F(Tests, inserted_key_by_Capital_letters_should_be_existed)
@@ -162,7 +162,6 @@ TEST_F(Tests, empty_and_clear)
     EXPECT_TRUE(s.empty());
 }
 
-/*
 TEST_F(Tests, insert_big_key_and_val)
 {
 	int count_byte = 10 * 1000 * 1000;
@@ -171,4 +170,3 @@ TEST_F(Tests, insert_big_key_and_val)
 	s.insert(key, val);
 	EXPECT_EQ(val ,s.get(key));
 }
-*/
