@@ -26,5 +26,5 @@ target_link_libraries(performance somredis)
 target_link_libraries(performance hiredis)
 target_link_libraries(performance pthread)
 
-project(memory)
-execute_process(COMMAND "/home/soroush/Desktop/work/hiredis/memory/memory_leak")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/memory/memory_leak
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
