@@ -37,13 +37,13 @@ string str_rand(int byte)
 
 void set_performance(somredis* &s, const vector<string>& key, const vector<string>& val)
 {
-	for (int i = 0 ; i < key.size() ; i++)
+	for (size_t i = 0 ; i < key.size() ; i++)
 		s->insert(key[i], val[i]);
 }
 
 void get_performance(somredis* &s, const vector<string>& key)
 {
-	for (int i = 0 ; i < key.size() ; i++)
+	for (size_t i = 0 ; i < key.size() ; i++)
 		s->get(key[i]);	
 }
 
@@ -72,7 +72,7 @@ void deletion_connection(vector<somredis*>& v, int count)
 
 void join_threads(vector<thread>& t)
 {
-	for(int i = 0 ; i < t.size() ; i++)
+	for(size_t i = 0 ; i < t.size() ; i++)
 		t[i].join();
 }
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 {	
 	// Configure default
 	int opt;
-	int count = 100;
+	int count = 10 * 1000 * 1000;
 	int key_byte = 30;
 	int val_byte = 100;
 	int count_thread = 7;
