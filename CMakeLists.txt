@@ -25,3 +25,6 @@ add_executable(performance performance/performance.cpp)
 target_link_libraries(performance somredis)
 target_link_libraries(performance hiredis)
 target_link_libraries(performance pthread)
+
+project(memory)
+execute_process(COMMAND "/home/soroush/Desktop/work/hiredis/memory/memory_leak")
