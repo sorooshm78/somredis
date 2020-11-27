@@ -93,7 +93,8 @@ int main(int argc, char *argv[])
 {	
 	// Configure default
 	int opt;
-	int count = 10 * 1000 * 1000;
+	int count = 1 * 1000 * 1000;
+	//	int count = 100;
 	int key_byte = 30;
 	int val_byte = 100;
 	int count_thread = 7;
@@ -174,10 +175,10 @@ int main(int argc, char *argv[])
  		vector <thread> threads;
 		
 		// Pointer to begin an end keys and vals vector
-		auto bk = keys.begin();
-		auto bv = vals.begin();
-		auto ek = keys.end();
-		auto ev = vals.end();
+		auto begin_keys = keys.begin();
+		auto begin_vals = vals.begin();
+		auto end_keys = keys.end();
+		auto end_vals = vals.end();
 
 		// START TIME
 		auto start_set = high_resolution_clock::now();
@@ -186,12 +187,12 @@ int main(int argc, char *argv[])
 		for(int i = 0 ; i < count_thread ; i++)
 		{
 			if(i == count_thread - 1)
-				threads.push_back(thread(set_performance, ref(connections[i]), vector<string>(bk, ek), vector<string>(bv, ev)));
+				threads.push_back(thread(set_performance, ref(connections[i]), vector<string>(begin_keys, end_keys), vector<string>(begin_vals, end_vals)));
 			else
 			{
-				threads.push_back(thread(set_performance, ref(connections[i]), vector<string>(bk, bk + add), vector<string>(bv, bv + add)));
-				bk += add;
-				bv += add;
+				threads.push_back(thread(set_performance, ref(connections[i]), vector<string>(begin_keys, begin_keys + add), vector<string>(begin_vals, begin_vals + add)));
+				begin_keys += add;
+
 			}
 		}
 
@@ -211,8 +212,8 @@ int main(int argc, char *argv[])
 		vector <thread> threads;
 		
 		// Pointer to begin and end of key vector
-		auto bk = keys.begin();
-		auto ek = keys.end();
+		auto begin_keys = keys.begin();
+		auto end_keys = keys.end();
 
 		// START TIME
 		auto start_get = high_resolution_clock::now();
@@ -221,11 +222,11 @@ int main(int argc, char *argv[])
 		for(int i = 0 ; i < count_thread ; i++)
 		{
 			if(i == count_thread - 1)
-				threads.push_back(thread(get_performance, ref(connections[i]), vector<string>(bk, ek)));
+				threads.push_back(thread(get_performance, ref(connections[i]), vector<string>(begin_keys, end_keys)));
 			else
 			{
-				threads.push_back(thread(get_performance, ref(connections[i]), vector<string>(bk, bk + add)));
-				bk += add;
+				threads.push_back(thread(get_performance, ref(connections[i]), vector<string>(begin_keys, begin_keys + add)));
+				begin_keys += add;
 			}	
 		}
 
