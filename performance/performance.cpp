@@ -19,7 +19,7 @@ void print_help()
 	cout << "-h  Show this help " << endl;
 	cout << "-k  Size of in bytes (default: 30) " << endl; 
 	cout << "-v  size byte value default: 100 " << endl;
-	cout << "-f  type of performance set or sg(set and get) default: set " << endl;
+	cout << "-f  type of performance set or get(set and get) default: set " << endl;
 	cout << "-c  ip or unix default: ip " << endl;
 	cout << "-n  count set or get to redis default: 100 " << endl;
 	cout << "-t  count thread default: 5 " << endl;
@@ -94,10 +94,9 @@ int main(int argc, char *argv[])
 	// Configure default
 	int opt;
 	int count = 1 * 1000 * 1000;
-	//	int count = 100;
 	int key_byte = 30;
 	int val_byte = 100;
-	int count_thread = 7;
+	int count_thread = 20;
 	string type = "set";
 	string connect = "ip";
 	
@@ -169,7 +168,7 @@ int main(int argc, char *argv[])
 	// Count insert or get each thread
 	int add = count / count_thread;
 
-	if(type == "set" or type == "sg")
+	if(type == "set" or type == "get")
 	{
 		// Create threads 
  		vector <thread> threads;
@@ -206,7 +205,7 @@ int main(int argc, char *argv[])
 		cout << "performance set : " << computing_time(start_set, end_set, count)  << " per/sec" << endl;
 	}		
 
-	if(type == "sg")
+	if(type == "get")
 	{
 		// CREAT THREAD
 		vector <thread> threads;
