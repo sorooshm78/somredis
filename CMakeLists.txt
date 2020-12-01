@@ -3,7 +3,10 @@ cmake_minimum_required(VERSION 3.16)
 project(somredis)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -fprofile-arcs -ftest-coverage")
 
 add_library(somredis src/SomRedis.cpp)
 target_link_libraries(somredis hiredis)
