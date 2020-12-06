@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apt -y update
-apt install -y redis-server
-apt install -y libhiredis-dev 
-apt install -y libgtest-dev
+sudo apt -y update
+sudo apt install -y redis-server
+sudo apt install -y libhiredis-dev 
+sudo apt install -y libgtest-dev
