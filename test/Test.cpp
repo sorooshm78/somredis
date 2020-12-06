@@ -33,6 +33,18 @@ TEST_F(Tests, doing_nothing_should_not_casue_anything)
 	somredis ss("127.0.0.1", 6379);
 }
 
+string get_val(somredis s,string key)
+{
+	return s.get(key); 
+}
+
+TEST_F(Tests, copy_constructor)
+{
+	s.insert("name", "sina");
+	EXPECT_EQ("sina", get_val(s, "name"));
+
+}
+
 TEST_F(Tests, 2_connecting_in_redis_and_set_get)
 {
 	{
@@ -49,6 +61,23 @@ TEST_F(Tests, connecting_s_and_p_to_redis_and_set_s_get_p_and_conversely)
 	p.insert("age", "21");
 	EXPECT_EQ("soroush", p.get("name"));
 	EXPECT_EQ("21", s.get("age"));
+}
+
+TEST_F(Tests, connect_by_socket)
+{
+	somredis p("/var/run/redis/redis.sock");
+	p.insert("name", "sina");
+	EXPECT_EQ("sina", p.get("name"));
+}
+
+TEST_F(Tests, get_ip)
+{
+	EXPECT_EQ("127.0.0.1", s.get_ip());
+}
+
+TEST_F(Tests, get_port)
+{
+	EXPECT_EQ(6379, s.get_port());
 }
 
 TEST_F(Tests, empty_string_should_not_cause_trouble)
@@ -154,6 +183,12 @@ TEST_F(Tests, size)
 	s.insert("name", "ali");
 	s.insert("age", "21");
 	EXPECT_EQ(2, s.size());
+}
+
+TEST_F(Tests, not_empty_redis)
+{
+	s.insert("name", "ali");
+    EXPECT_FALSE(s.empty());
 }
 
 TEST_F(Tests, empty_and_clear)
